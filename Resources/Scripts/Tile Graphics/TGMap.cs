@@ -34,56 +34,7 @@ public class TGMap : MonoBehaviour
     {
         BuildMesh();
     }
-
-    // get the tile sprite sheet, chop it up and throw it into the array
-    Color[][] ChopUpTiles()
-    {
-        int numTilesPerRow = terrainTiles.width / tileResolution;
-        int numRows = terrainTiles.height / tileResolution;
-
-        Color[][] tiles = new Color[numTilesPerRow * numRows][];
-
-        for (int y = 0; y < numRows; y++)
-        {
-            for (int x = 0; x < numTilesPerRow; x++)
-            {
-                tiles[y * numTilesPerRow + x] = terrainTiles.GetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution);
-            }
-        }
-
-        return tiles;
-    }
-
-    // create the map texture to be thrown into the UV
-    void BuildTexture()
-    {
-		TDMap map = new TDMap(mapSizeWidth, mapSizeHeight, minRoomSize, maxRoomSize, totalRooms, seed, noiseFactor);
-
-        int textWidth = mapSizeWidth * tileResolution;
-        int textHeight = mapSizeHeight * tileResolution;
-        Texture2D texture = new Texture2D(textWidth, textHeight);
-
-        Color[][] tiles = ChopUpTiles();
-
-        for (int y = 0; y < mapSizeHeight; y++)
-        {
-            for (int x = 0; x < mapSizeWidth; x++)
-            {
-                Color[] p = tiles[ map.GetTileAt(x, y) ];
-                texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, p);
-            }
-        }
-
-        texture.filterMode = FilterMode.Point;
-        texture.wrapMode = TextureWrapMode.Clamp;
-        texture.Apply();
-
-        MeshRenderer mesh_renderer = GetComponent<MeshRenderer>();
-        mesh_renderer.sharedMaterials[0].mainTexture = texture;
-
-        Debug.Log("Done Texture.");
-    }
-
+		
     // create the mesh and all UV 
     public void BuildMesh()
     {
@@ -152,4 +103,52 @@ public class TGMap : MonoBehaviour
         BuildTexture();
     }
 
+	// create the map texture to be thrown into the UV
+	void BuildTexture()
+	{
+		TDMap map = new TDMap(mapSizeWidth, mapSizeHeight, minRoomSize, maxRoomSize, totalRooms, seed, noiseFactor);
+
+		int textWidth = mapSizeWidth * tileResolution;
+		int textHeight = mapSizeHeight * tileResolution;
+		Texture2D texture = new Texture2D(textWidth, textHeight);
+
+		Color[][] tiles = ChopUpTiles();
+
+		for (int y = 0; y < mapSizeHeight; y++)
+		{
+			for (int x = 0; x < mapSizeWidth; x++)
+			{
+				Color[] p = tiles[ map.GetTileAt(x, y) ];
+				texture.SetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution, p);
+			}
+		}
+
+		texture.filterMode = FilterMode.Point;
+		texture.wrapMode = TextureWrapMode.Clamp;
+		texture.Apply();
+
+		MeshRenderer mesh_renderer = GetComponent<MeshRenderer>();
+		mesh_renderer.sharedMaterials[0].mainTexture = texture;
+
+		Debug.Log("Done Texture.");
+	}
+
+	// get the tile sprite sheet, chop it up and throw it into the array
+	Color[][] ChopUpTiles()
+	{
+		int numTilesPerRow = terrainTiles.width / tileResolution;
+		int numRows = terrainTiles.height / tileResolution;
+
+		Color[][] tiles = new Color[numTilesPerRow * numRows][];
+
+		for (int y = 0; y < numRows; y++)
+		{
+			for (int x = 0; x < numTilesPerRow; x++)
+			{
+				tiles[y * numTilesPerRow + x] = terrainTiles.GetPixels(x * tileResolution, y * tileResolution, tileResolution, tileResolution);
+			}
+		}
+
+		return tiles;
+	}
 }

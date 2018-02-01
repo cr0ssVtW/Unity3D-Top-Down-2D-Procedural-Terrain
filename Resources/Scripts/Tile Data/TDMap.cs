@@ -186,6 +186,8 @@ public class TDMap
 	/*
     bool HasAdjacentFloor(int x, int z)
     {
+    	// There could be a cleaner way to do this. I'll need to think it over.
+    	
         // check left
         if (x > 0 && map_data[x - 1, z] == TDTile.SAND)
             return true;
