@@ -35,7 +35,7 @@ public class TGMap : MonoBehaviour
         BuildMesh();
     }
 
-    // get the tile sprite sheet and chop it up and throw it into the array
+    // get the tile sprite sheet, chop it up and throw it into the array
     Color[][] ChopUpTiles()
     {
         int numTilesPerRow = terrainTiles.width / tileResolution;
